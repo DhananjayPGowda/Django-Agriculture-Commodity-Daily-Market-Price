@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"/>
+</head>
+<body>
+    <nav class="head">
+        <div class="logo">
+            <img id="logo_img" src="{% static 'img/logo.jpg' %}" alt="">
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="/">home</a></li>
+                {% if request.user.is_superuser == True %}
+                    <li><a href="/admin_pannel">add item</a></li>
+                    <li><a href="/admin">admin</a></li>
+                {% endif %}
+
+                {% if request.user.is_authenticated %}
+                     <li><a href="/accounts/logout">logout</a></li>
+                {% else %}
+                    <li><a href="/accounts/login">login</a></li>
+                 {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="body">
+
+        <!--                body start                   -->
+        <form class="left view_left" action="./{{market}}",method  = "GET">
+            <div class="title">
+                <h4>Search : </h4>
+            </div>
+            <div class="left_body">
+                <label for ="from">From : </label>
+                <input id="from" type = "date" name = "from" value="{{From}}"/>
+                <label for="to">To : </label>
+                <input id="to" type = "date" name = "to" value="{{To}}"/>
+            </div>
+            <div class="left_foot view_left_foot">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+        <!-----------body left end------------------->
+
+        <!-----------body  center start--------------->
+        <div class="center view_center">
+            {% if items|length != 0 %}
+            <table>
+                <tr>
+                    <th>Crop</th>
+                    <th>Variety</th>
+                    <th>Market</th>
+                    <th>Date</th>
+                    <th>min price</th>
+                    <th>max price</th>
+                    <th>modelprice</th>
+                </tr>
+                {% for i in items %}
+                    <tr>
+                        <td>{{i.crop.name}}</td>
+                        <td>{{i.variety.name}}</td>
+                        <td>{{i.market.name}}</td>
+                        <td>{{i.date}}</td>
+                        <td>{{i.min_price}}</td>
+                        <td>{{i.max_price}}</td>
+                        <td>{{i.mod_price}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            {% else %}
+                {% if From != To %}
+                        <h4 style="color:red;">no record found between {{From}} to {{ To}}</h4>
+                {% else %}
+                <h4 style="color:red;">no record found on {{From}}</h4>
+                {% endif %}
+            {% endif %}
+        </div>
+        <!--------------------BODY CENTER END------------------->
+        <div class="right">
+            <div class="title">
+                <h4>TOP VARITIES : </h4>
+            </div>
+            <div class="right_body">
+                <ul>
+                    <li>COCONUT :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                    <li>ARECANUT :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                    <li>BANANA :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                    <li>RAGI :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                    <li>RICE :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                    <li>WHEAT :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                </ul>
+            </div>
+            <div class="right_foot">
+                <input type="text" placeholder="Search"/>
+            </div>
+        </div>
+        <!-----------body right end------------------->
+    <!-----------------body end------------------------>
+    </div>
+</body>
+</html>

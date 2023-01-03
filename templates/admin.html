@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'admin.css' %}"/>
+</head>
+<body>
+    <nav class="head">
+        <div class="logo">
+            <img id="logo_img" src="{% static 'img/logo.jpg' %}" alt="">
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="/">home</a></li>
+                <li><a href="/admin">admin</a></li>
+                <li><a href="#">login</a></li>
+                <li><a href="#">signup</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="outer">
+        <h1>Add Comodity</h1>
+        <div class = "comodity"style="color:red;" id="options">
+        <form method = "GET" action = "/admin_pannel/add">
+        <label for ="crop">Crop</label>
+        <select id="crop" name = "crop" onchange="Variety('crop','variety')">
+            <option>select</option>
+            {% for i in crops %}
+                <option value="{{i.name}}" name = "{{i.name}}">{{i.name}}</option>
+            
+            {% endfor %}
+        </select>
+        
+        <label for ="variety">Variety</label>
+        <select id="variety" disabled name = "variety" onchange="Variety('variety','state')">
+        </select>
+        
+        <label for ="state">State</label>
+        <select id="state" name = "state" onchange="Variety('state','district')" disabled>
+        </select>
+        
+        
+        <label for ="district">District</label>
+        <select id="district" name = "district" onchange="Variety('district','market')" disabled>
+        </select>
+        
+        <label for ="market">Market</label>
+        <select id="market" name = "market" onchange="" disabled>
+        </select>
+            <label for ="date">Date</label>
+        <input id = "date" type="date" name ="date" />
+            <label for ="price">Price</label>
+        <input id = "price" type="number" name ="price" />
+        <input class="submit" type = "submit"/>
+        </form>
+                                    
+        </div>
+        
+        <h1>Add Market</h1>
+        <div class="market">
+            <form method = "get" action ="/admin_pannel/add_market">
+            
+            {{forms.market_form}}
+            
+            <input class="submit" type ="submit" value = "submit"/>
+            </form>
+
+        </div>
+        <h1>Add Crop</h1>
+        <div class="crop">
+            <form method = "post" action ="/admin_pannel/add_crop" enctype='multipart/form-data'>
+            {% csrf_token %}
+            {{forms.crop_form}}
+            
+            <input class="submit" type ="submit" value = "submit"/>
+            </form>
+        </div>
+
+        <h1>Add Variety</h1>
+        <div class="variety">
+            <form method = "get" action ="/admin_pannel/add_variety">
+            
+            {{forms.variety_form}}
+            
+            <input class="submit" type ="submit" value = "submit"/>
+            </form>
+        </div>
+    </div>
+    
+    
+    <div style="color:green;" id="t">
+    
+    </div>
+    
+    <script>
+    
+        document.getElementById("date").valueAsDate = new Date();
+        //var data = JSON.parse("{{test|escapejs}}");
+        var d = document.getElementById("t");
+        
+        //var a = document.getElementById("a");
+       //var b = document.getElementById("b");
+       //var c = document.getElementById("c");
+        //console.log(a.value);
+                
+
+        
+        
+      
+        
+        
+        
+        function updateTime(){
+           var xhr = new XMLHttpRequest(); 
+            var url = "/test"; 
+            xhr.open("POST", url, true); 
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.onreadystatechange = function () { 
+            if (this.readyState == 4 && this.status == 200) { 
+                console.log(this.responseText);
+                d.innerHTML = this.response;
+                } 
+    
+            } 
+            xhr.send(JSON.stringify({"d":"805","hz":"5"}));
+    }
+    updateTime();
+    
+        
+        
+function Variety(type,field){
+
+            
+            
+                
+                
+           var sel = document.getElementById(type);
+           var target = document.getElementById(field);
+           c = sel.value;    
+           
+           d.innerHTML = c;
+           var xhr = new XMLHttpRequest(); 
+            var url = "/test"; 
+            xhr.open("POST", url, true); 
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.onreadystatechange = function () { 
+            if (this.readyState == 4 && this.status == 200) { 
+            
+                var res = JSON.parse(this.responseText);
+     
+               s = '<option>select</option>';
+                for(var i in res){
+                    i = res[i];
+                    s += '<option value = "' +i+'" name = "'+ i +'">'+i+'</option>';
+                }
+                
+                target.innerHTML = s;
+                target.disabled = false; 
+                
+                
+               
+                
+                
+                
+                
+                } 
+    
+            }
+            
+            
+            
+            xhr.send(JSON.stringify({"value": c,"target":field}));
+    }
+        
+        
+        
+window.onbeforeunload = function(){
+         closeinterval(rpt);
+}
+        
+        
+        
+        
+        
+    </script>
+    
+</body>
+</html>    

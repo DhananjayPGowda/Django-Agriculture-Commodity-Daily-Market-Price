@@ -1,0 +1,61 @@
+
+
+.out{
+    background-color: rgb(192 206 200 / 3%);
+    text-align: center;
+    justify-content: center;
+    width: 50%;
+    height:25rem;
+    display:block;
+    border-radius: 5%;
+    position: relative;
+    bottom: 5rem;
+    
+    top: 8rem;
+    left: 25rem;
+}
+
+.out .form{
+    position: relative;
+    background-color: rgb(46 92 27 / 2%);
+    display: block;
+    top: 25%;
+    width: 80%;
+    left: 10%;
+}
+
+
+input,label{
+    display: block;
+    width: 75%;
+    border-radius: 2rem;
+    border: none;
+    position: relative;
+    left: 10%;
+    margin-top: 1rem;
+    height: 2rem;
+}
+#submit{
+    width: 25%;
+    left: 35%;
+}
+
+.signup{
+    position: relative;
+    top: 25%;
+
+}
+
+.error{
+    top: 30%;
+    color: red;
+    position: relative;
+
+}
+
+
+
+a{
+    text-decoration: none;
+    color: rgb(69, 236, 69);
+}

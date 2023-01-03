@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"/>
+</head>
+<body>
+    <nav class="head">
+        <div class="logo">
+            <img id="logo_img" src="{% static 'img/logo.jpg' %}" alt="">
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="/">home</a></li>
+                {% if request.user.is_superuser == True %}
+                <li><a href="/admin_pannel">add item</a></li>
+                <li><a href="/admin">admin</a></li>
+                {% endif %}
+                
+                
+                {% if request.user.is_authenticated %}
+                     <li><a href="/accounts/logout">logout</a></li>
+                {% else %}
+                    <li><a href="/accounts/login">login</a></li>
+                 {% endif %}
+                
+                
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="body">
+
+        <!--                body start                   -->
+        <form class="left" style="height: 5rem;" action="/",method  = "GET">
+            <div class="title">
+                <h4>Search : </h4>
+            </div>
+            <div class="left_body">
+                <!--<label for ="crop_search">Crop : </label>-->
+                <input type = "text" value = "{{search}}" name = "crop_search" placeholder ="search"/>
+            </div>
+            <div class="left_foot" style="bottom:3rem;">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+        <!-----------body left end------------------->
+
+        <!-----------body  center start--------------->
+        <div class="center">
+            {% for i in crops %}
+                {% if request.user.is_authenticated  == True %}
+                    <a href="/details/{{i.name}}">
+                {% else %}
+                    <a href="/accounts/login">
+                {% endif %}          
+                    <div class="box">
+                        <div class="box_img">
+                            <img src="{{i.img.url}}" alt=""/>
+                        </div>
+                        <div class="box_text">
+                            <h5>Crop : {{i.name}}</h5>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        <!--------------------BODY CENTER END------------------->
+        <div class="right">
+            <div class="title">
+                <h4>TOP VARITIES : </h4>
+            </div>
+            <div class="right_body">
+                <ul>
+                    <li>COCONUT :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                    <li>ARECANUT :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                    <li>BANANA :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                    <li>RAGI :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                    <li>RICE :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                    <li>WHEAT :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                </ul>
+            </div>
+            <div class="right_foot">
+                <input type="text" placeholder="Search"/>
+            </div>
+        </div>
+        <!-----------body right end------------------->
+    <!-----------------body end------------------------>
+    </div>
+</body>
+</html>

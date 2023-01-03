@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"/>
+</head>
+<body>
+    <nav class="head">
+        <div class="logo">
+            <img id="logo_img" src="{% static 'img/logo.jpg' %}" alt="">
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="/">home</a></li>
+                {% if request.user.is_superuser == True %}
+                <li><a href="/admin_pannel">add item</a></li>
+                <li><a href="/admin">admin</a></li>
+                {% endif %}
+                
+                
+                {% if request.user.is_authenticated %}
+                     <li><a href="/accounts/logout">logout</a></li>
+                {% else %}
+                    <li><a href="/accounts/login">login</a></li>
+                 {% endif %}
+                
+                
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="body">
+
+        <!--                body start                   -->
+        <form class="left details_left" style=" max-height: 12rem;width: 25%;" action="./search_market",method  = "GET">
+            <div class="title">
+                <h4>Search : </h4>
+            </div>
+            <div class="left_body">
+                <label for ="state_search">State : </label>
+                <input type = "text" name = "state_search" placeholder ="search state" value="{{filters.state}}"/>
+                <label for ="district_search">District : </label>
+                <input type = "text" name = "district_search"  value="{{filters.district}}" placeholder ="search district"/>
+                <label for ="market_search">Market : </label>
+                <input type = "text" value="{{filters.market}}" name = "market_search" placeholder ="search market"/>
+                <input type = "text" value="{{crop}}" name="crop_search" style="visibility:hidden;">
+            </div>
+            <div class="left_foot" style="top: 22%;">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+        <!-----------body left end------------------->
+
+        <!-----------body  center start--------------->
+        <div class="center">
+            {% for i in markets %}
+            {% if request.user.is_authenticated == True %}
+            <a href="./{{crop}}/{{i.name}}">
+            {% else %}
+            <a href="/accounts/login">
+            {% endif %}
+                    <div class="box">
+                        <div class="box_img">
+                            <img src="{{img}}" alt=""/>
+                        </div>
+                        <div class="box_text">
+                            <h5>Market : {{i.name}}</h5>
+                            <h6>District : {{i.district}}</h6>
+                            <h6>State : {{i.state}}</h6>
+
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        <!--------------------BODY CENTER END------------------->
+        <div class="right">
+            <div class="title">
+                <h4>TOP VARITIES : </h4>
+            </div>
+            <div class="right_body">
+                <ul>
+                    <li>COCONUT :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                    <li>ARECANUT :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                    <li>BANANA :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                    <li>RAGI :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                    <li>RICE :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                    <li>WHEAT :<img class="IncDecImg" src="{% static 'img/increase.png' %}" alt=""/></li>
+                </ul>
+            </div>
+            <div class="right_foot">
+                <input type="text" placeholder="Search"/>
+            </div>
+        </div>
+        <!-----------body right end------------------->
+    <!-----------------body end------------------------>
+    </div>
+</body>
+</html>
